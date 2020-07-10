@@ -1,0 +1,48 @@
+version: '3'
+services:
+  node1:
+    image: nginx
+    ports:
+      - 8081:80
+    volumes:
+      - $PWD/node1:/usr/share/nginx/html:rw
+    container_name: node1
+    networks:
+      extnetwork:
+        ipv4_address: 172.19.0.2
+  node2:
+    image: nginx
+    ports:
+      - 8082:80
+    volumes:
+      - $PWD/node2:/usr/share/nginx/html:rw
+    container_name: node2
+    networks:
+      extnetwork:
+        ipv4_address: 172.19.0.3
+  node3:
+    image: nginx
+    ports:
+      - 8083:80
+    volumes:
+      - $PWD/node3:/usr/share/nginx/html:rw
+    container_name: node3
+    networks:
+      extnetwork:
+        ipv4_address: 172.19.0.4
+  gateway:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - $PWD/conf.d:/etc/nginx/conf.d:rw
+    container_name: gateway
+    networks:
+      extnetwork:
+        ipv4_address: 172.19.0.5
+
+networks:
+  extnetwork:
+    ipam:
+      config:
+      - subnet: 172.19.0.0/16
